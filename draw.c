@@ -176,28 +176,28 @@ void draw_polygons( struct matrix *polygons, screen s, zbuffer zb, color c ) {
             printf("filling in triangle %d\n", point);
 			scanline_convert(polygons, point, s, zb);
 
-			draw_line( polygons->m[0][point],
-			           polygons->m[1][point],
-			           polygons->m[2][point],
-			           polygons->m[0][point+1],
-			           polygons->m[1][point+1],
-			           polygons->m[2][point+1],
-			           s, zb, c);
-			draw_line( polygons->m[0][point+2],
-			           polygons->m[1][point+2],
-			           polygons->m[2][point+2],
-			           polygons->m[0][point+1],
-			           polygons->m[1][point+1],
-			           polygons->m[2][point+1],
-			           s, zb, c);
-
-			draw_line( polygons->m[0][point],
-			           polygons->m[1][point],
-			           polygons->m[2][point],
-			           polygons->m[0][point+2],
-			           polygons->m[1][point+2],
-			           polygons->m[2][point+2],
-			           s, zb, c);
+			// draw_line( polygons->m[0][point],
+			//            polygons->m[1][point],
+			//            polygons->m[2][point],
+			//            polygons->m[0][point+1],
+			//            polygons->m[1][point+1],
+			//            polygons->m[2][point+1],
+			//            s, zb, c);
+			// draw_line( polygons->m[0][point+2],
+			//            polygons->m[1][point+2],
+			//            polygons->m[2][point+2],
+			//            polygons->m[0][point+1],
+			//            polygons->m[1][point+1],
+			//            polygons->m[2][point+1],
+			//            s, zb, c);
+            //
+			// draw_line( polygons->m[0][point],
+			//            polygons->m[1][point],
+			//            polygons->m[2][point],
+			//            polygons->m[0][point+2],
+			//            polygons->m[1][point+2],
+			//            polygons->m[2][point+2],
+			//            s, zb, c);
 
 
 		}
@@ -644,9 +644,9 @@ void draw_line(int x0, int y0, double z0,
 
 
 
-	int xi, yi, zi, xf, yf, zf, xt, yt;
+	int xi, yi, xf, yf, xt, yt;
     int d, dx, dy;
-    double zt, Dz;
+    double zi, zt, zf, Dz;
 
 
 	if(x0 == x1) {
@@ -662,7 +662,7 @@ void draw_line(int x0, int y0, double z0,
 		xt = x0; yt = yi; zt = zi;
         Dz = (zf - zi) / (yf - yi + 1);
 
-		while(yt != yf) {
+		while(yt <= yf) {
 			plot(s, zb, c, xt, yt, zt);
 			yt++;
             zt += Dz;
@@ -694,15 +694,15 @@ void draw_line(int x0, int y0, double z0,
 		d = 2*A + B;
         Dz = (zf - zi) / (xf - xi + 1);
 
-		while(xt != xf) {
+		while(xt <= xf) {
 			plot(s, zb, c, xt, yt, zt);
 			if(d > 0) {
 				d += 2*B;
 				yt++;
-                zt += Dz;
 			}
 			d += 2*A;
 			xt++;
+            zt += Dz;
 		}
 	}
 	else if(m > 1) {
@@ -710,7 +710,7 @@ void draw_line(int x0, int y0, double z0,
 		d = A + 2*B;
         Dz = (zf - zi) / (yf - yi + 1);
 
-		while(yt != yf) {
+		while(yt <= yf) {
 			plot(s, zb, c, xt, yt, zt);
 			if(d < 0) {
 				d += 2*A;
@@ -726,7 +726,7 @@ void draw_line(int x0, int y0, double z0,
 		d = 2*A - B;
         Dz = (zf - zi) / (xf - xi + 1);
 
-		while(xt != xf) {
+		while(xt <= xf) {
 			plot(s, zb, c, xt, yt, zt);
 			if(d < 0) {
 				d -= 2*B;
@@ -743,7 +743,7 @@ void draw_line(int x0, int y0, double z0,
 		d = A - 2*B;
         Dz = (zf - zi) / (yf - yi + 1);
 
-		while(yt != yf) {
+		while(yt <= yf) {
 			plot(s, zb, c, xt, yt, zt);
 			if(d > 0) {
 				d += 2*A;
@@ -758,7 +758,7 @@ void draw_line(int x0, int y0, double z0,
 		//printf("{0}: %f\n", m);
         Dz = (zf - zi) / (xf - xi + 1);
 
-		while(xt != xf) {
+		while(xt <= xf) {
 			plot(s, zb, c, xt, yt, zt);
 			xt++;
             zt += Dz;
@@ -768,7 +768,7 @@ void draw_line(int x0, int y0, double z0,
 		//printf("{1}: %f\n", m);
         Dz = (zf - zi) / (xf - xi + 1);
 
-		while(xt != xf) {
+		while(xt <= xf) {
 			plot(s, zb, c, xt, yt, zt);
 			xt++;
 			yt++;
@@ -779,7 +779,7 @@ void draw_line(int x0, int y0, double z0,
 	    //printf("{-1}: %f\n", m);
         Dz = (zf - zi) / (xf - xi + 1);
 
-		while(xt != xf) {
+		while(xt <= xf) {
 			plot(s, zb, c, xt, yt, zt);
 			xt++;
 			yt--;

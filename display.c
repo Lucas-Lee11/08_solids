@@ -36,7 +36,7 @@
    ====================*/
 void plot( screen s, zbuffer zb, color c, int x, int y, double z) {
 	int newy = YRES - 1 - y;
-	if ( x >= 0 && x < XRES && newy >=0 && newy < YRES && zb[x][newy] <= z){
+	if ( x >= 0 && x < XRES && newy >=0 && newy < YRES && zb[x][newy] < z){
         s[x][newy] = c;
         zb[x][newy] = z;
     }
